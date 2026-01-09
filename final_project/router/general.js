@@ -1,24 +1,9 @@
 const express = require('express');
 let books = require("./booksdb.js");
+const { default: axios } = require('axios');
 let isValid = require("./auth_users.js").isValid;
 let users = require("./auth_users.js").users;
 const public_users = express.Router();
-
-// Check if a user with the given username already exists
-const doesExist = (username) => {
-    // Filter the users array for any user with the same username
-    let userswithsamename = users.filter((user) => {
-        return user.username === username;
-    });
-    // Return true if any user with the same username is found, otherwise false
-    if (userswithsamename.length > 0) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-
 
 // Register a new user
 public_users.post("/register", (req, res) => {
@@ -28,7 +13,7 @@ public_users.post("/register", (req, res) => {
     // Check if both username and password are provided
     if (username && password) {
         // Check if the user does not already exist
-        if (!doesExist(username)) {
+        if (!isValid(username)) {
             // Add the new user to the users array
             users.push({"username": username, "password": password});
             return res.status(200).json({message: "User successfully registered. Now you can login"});
@@ -75,5 +60,11 @@ public_users.get('/review/:isbn',function (req, res) {
     const reviews = book.reviews
   return res.json(reviews);
 });
+
+
+async function getBooks() {
+    const res = await axios.get('/');
+}
+
 
 module.exports.general = public_users;

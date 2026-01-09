@@ -19,6 +19,20 @@ const authenticatedUser = (username, password) => {
     }
 }
 
+// Check if a user with the given username already exists
+const isValid = (username) => {
+    // Filter the users array for any user with the same username
+    let userswithsamename = users.filter((user) => {
+        return user.username === username;
+    });
+    // Return true if any user with the same username is found, otherwise false
+    if (userswithsamename.length > 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 // Login endpoint
 regd_users.post("/login", (req, res) => {
     const username = req.body.username;
@@ -45,24 +59,6 @@ regd_users.post("/login", (req, res) => {
         return res.status(208).json({ message: "Invalid Login. Check username and password" });
     }
 });
-
-
-
-
-
-
-
-const isValid = (username)=>{ //returns boolean
-
-
-
-
-
-
-
-
-}
-
 
 // Add a book review
 regd_users.put("/auth/review/:isbn", (req, res) => {
