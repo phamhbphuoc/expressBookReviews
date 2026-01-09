@@ -106,4 +106,30 @@ const getBooksByTitle = async (title) => {
     }
 }
 
+// Get the book list available in the shop using async-await
+public_users.get('/async-syntax/', async function (req, res) {
+    const books = await getAllBooks();
+    return res.json(books);
+});
+
+// Get book details based on ISBN using async-await
+public_users.get('/async-syntax/isbn/:isbn', async function (req, res) {
+    const book = await getBookByISBN(req.params.isbn);
+    return res.json(book);
+});
+
+// Get book details based on author using async-await
+public_users.get('/async-syntax/author/:author', async function (req, res) {
+    const authorName = req.params.author;
+    const filteredBooks = await getBooksByAuthor(authorName);
+    return res.json(filteredBooks);
+  });
+
+// Get all books based on title  using async-await
+public_users.get('/async-syntax/title/:title', async function (req, res) {
+    const title = req.params.title;
+    const filteredBooks = await getBooksByTitle(title);
+    return res.json(filteredBooks);
+});
+
 module.exports.general = public_users;
